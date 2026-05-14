@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wedding Invitation</title>
+
+<!-- ============================================== -->
+<!--   WEDDING INVITATION - EASY CUSTOMIZATION      -->
+<!--                                                -->
+<!--   To customize this page, edit the values     -->
+<!--   inside the <script id="config"> block       -->
+<!--   near the bottom of this file.               -->
+<!--                                                -->
+<!--   To replace photos:                          -->
+<!--   1. Put your image files next to index.html  -->
+<!--      (e.g. couple.jpg, photo1.jpg, etc.)      -->
+<!--   2. Update the image paths in the config.    -->
+<!--                                                -->
+<!--   To replace the music:                        -->
+<!--   1. Put your .mp3 next to index.html         -->
+<!--   2. Update the "music" path in the config.   -->
+<!-- ============================================== -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Italiana&family=Cormorant+Infant:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --bg: #f5efe6;
+  --bg-deep: #ebe1d1;
+  --ink: #3a2e22;
+  --ink-soft: #6b5a47;
+  --accent: #8a6b3d;
+  --accent-deep: #5e4524;
+  --rose: #c89b86;
+  --leaf: #8a9a72;
+  --paper: #fbf7ef;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+img { max-width: 100%; display: block; }
+
+.display { font-family: 'Italiana', serif; letter-spacing: 0.04em; }
+.italic { font-family: 'Cormorant Infant', serif; font-style: italic; }
+
+/* ---------- Music toggle button ---------- */
+#music-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(58,46,34,0.25);
+  background: rgba(251,247,239,0.85);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background 0.3s ease;
+  box-shadow: 0 4px 14px rgba(58,46,34,0.12);
+}
+#music-toggle:hover { transform: scale(1.08); background: var(--paper); }
+#music-toggle svg { width: 20px; height: 20px; fill: var(--accent-deep); }
+#music-toggle.playing svg .bar {
+  animation: bar 0.9s ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+#music-toggle.playing svg .bar:nth-child(2) { animation-delay: 0.15s; }
+#music-toggle.playing svg .bar:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bar { from { transform: scaleY(0.4); } to { transform: scaleY(1); } }
+
+/* ---------- Section base ---------- */
+section {
+  position: relative;
+  padding: 90px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  background: var(--accent);
+  margin: 18px auto;
+  opacity: 0.6;
+}
+.divider.ornament {
+  width: 140px;
+  height: 18px;
+  background: none;
+  margin: 22px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0.85;
+}
+.divider.ornament::before,
+.divider.ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--accent);
+}
+.divider.ornament span {
+  color: var(--accent);
+  font-size: 14px;
+  letter-spacing: 0.3em;
+}
+
+/* ---------- Hero ---------- */
+#hero {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at top, rgba(200,155,134,0.18), transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(138,154,114,0.12), transparent 60%),
+    var(--bg);
+  padding: 60px 24px 90px;
+}
+#hero .frame {
+  border: 1px solid rgba(94,69,36,0.35);
+  padding: 50px 30px;
+  max-width: 560px;
+  width: 100%;
+  position: relative;
+  background: rgba(251,247,239,0.5);
+}
+#hero .frame::before,
+#hero .frame::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--accent);
+}
+#hero .frame::before { top: -6px; left: -6px; border-right: none; border-bottom: none; }
+#hero .frame::after  { bottom: -6px; right: -6px; border-left: none; border-top: none; }
+
+.small-caps {
+  font-family: 'Italiana', serif;
+  letter-spacing: 0.35em;
+  font-size: 13px;
+  color: var(--accent-deep);
+  text-transform: uppercase;
+}
+.couple-names {
+  font-family: 'Italiana', serif;
+  font-size: clamp(38px, 9vw, 78px);
+  line-height: 1.05;
+  color: var(--ink);
+  margin: 20px 0 10px;
+}
+.amp {
+  display: block;
+  font-family: 'Cormorant Infant', serif;
+  font-style: italic;
+  font-size: clamp(28px, 6vw, 44px);
+  color: var(--rose);
+  margin: 10px 0;
+  font-weight: 300;
+}
+.date-line {
+  margin-top: 24px;
+  font-size: 17px;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+/* ---------- Greeting ---------- */
+.greeting {
+  max-width: 640px;
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+.greeting strong { color: var(--ink); font-weight: 500; letter-spacing: 0.02em; }
+
+/* ---------- Photo blocks ---------- */
+.photo-frame {
+  max-width: 380px;
+  width: 100%;
+  margin: 30px auto;
+  position: relative;
+  padding: 12px;
+  background: var(--paper);
+  box-shadow: 0 10px 40px rgba(58,46,34,0.15);
+}
+.photo-frame img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  filter: sepia(0.05) saturate(0.95);
+}
+.photo-frame .tag {
+  margin-top: 14px;
+  font-family: 'Italiana', serif;
+  letter-spacing: 0.3em;
+  font-size: 13px;
+  color: var(--accent-deep);
+}
+
+/* ---------- Countdown ---------- */
+#countdown {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+.cd-unit {
+  width: 78px;
+  padding: 18px 6px;
+  border: 1px solid rgba(94,69,36,0.3);
+  background: var(--paper);
+}
+.cd-unit .num {
+  font-family: 'Italiana', serif;
+  font-size: 30px;
+  color: var(--ink);
+  line-height: 1;
+}
+.cd-unit .lbl {
+  margin-top: 6px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+/* ---------- Schedule / Program ---------- */
+.program {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 420px;
+}
+.program-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(94,69,36,0.18);
+  align-items: center;
+  text-align: left;
+}
+.program-row:last-child { border-bottom: none; }
+.program-row .time {
+  font-family: 'Italiana', serif;
+  font-size: 26px;
+  color: var(--accent-deep);
+}
+.program-row .desc {
+  font-size: 17px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+/* ---------- Venue ---------- */
+.venue-card {
+  max-width: 480px;
+  margin-top: 20px;
+}
+.venue-card .place {
+  font-family: 'Italiana', serif;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  margin: 14px 0 8px;
+}
+.venue-card .address {
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+}
+.btn-map {
+  display: inline-block;
+  padding: 14px 32px;
+  border: 1px solid var(--accent-deep);
+  color: var(--accent-deep);
+  text-decoration: none;
+  font-family: 'Italiana', serif;
+  letter-spacing: 0.25em;
+  font-size: 13px;
+  text-transform: uppercase;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.btn-map:hover {
+  background: var(--accent-deep);
+  color: var(--paper);
+}
+
+/* ---------- RSVP ---------- */
+.rsvp-form {
+  max-width: 420px;
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.rsvp-form input[type="text"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(94,69,36,0.35);
+  background: var(--paper);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: var(--ink);
+  outline: none;
+  transition: border 0.2s ease;
+}
+.rsvp-form input[type="text"]:focus { border-color: var(--accent-deep); }
+.rsvp-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+.rsvp-options label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px 14px;
+  border: 1px solid rgba(94,69,36,0.2);
+  background: var(--paper);
+  transition: border 0.2s ease;
+}
+.rsvp-options label:hover { border-color: var(--accent); }
+.rsvp-options input { accent-color: var(--accent-deep); }
+.btn-submit {
+  padding: 16px 32px;
+  background: var(--accent-deep);
+  color: var(--paper);
+  border: none;
+  font-family: 'Italiana', serif;
+  letter-spacing: 0.25em;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn-submit:hover { background: var(--ink); }
+.rsvp-note {
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  padding: 50px 24px 70px;
+  text-align: center;
+  font-family: 'Italiana', serif;
+  letter-spacing: 0.3em;
+  font-size: 13px;
+  color: var(--accent-deep);
+  background: var(--bg-deep);
+}
+footer .heart { color: var(--rose); margin: 0 8px; }
+
+/* ---------- Reveal animation ---------- */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 1s ease, transform 1s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- Mobile tweaks ---------- */
+@media (max-width: 480px) {
+  section { padding: 70px 20px; }
+  .cd-unit { width: 68px; padding: 14px 4px; }
+  .cd-unit .num { font-size: 24px; }
+  .program-row { grid-template-columns: 76px 1fr; gap: 16px; }
+  .program-row .time { font-size: 22px; }
+}
+
+/* Audio overlay prompt (first-tap-to-play, for browsers blocking autoplay) */
+#audio-prompt {
+  position: fixed;
+  inset: 0;
+  background: rgba(58,46,34,0.78);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: pointer;
+  color: var(--paper);
+  text-align: center;
+  padding: 30px;
+}
+#audio-prompt.show { display: flex; }
+#audio-prompt .inner {
+  max-width: 340px;
+  border: 1px solid rgba(251,247,239,0.4);
+  padding: 50px 30px;
+  pointer-events: none; /* clicks fall through to the overlay itself */
+}
+#audio-prompt .inner h2 {
+  font-family: 'Italiana', serif;
+  font-size: 28px;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+}
+#audio-prompt .inner p {
+  font-style: italic;
+  opacity: 0.85;
+  font-size: 17px;
+  line-height: 1.5;
+}
+#audio-prompt .open-btn {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 28px;
+  border: 1px solid var(--paper);
+  font-family: 'Italiana', serif;
+  letter-spacing: 0.3em;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- Music play/pause button -->
+<button id="music-toggle" aria-label="Toggle music">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <rect class="bar" x="5"  y="6" width="3" height="12" rx="1"/>
+    <rect class="bar" x="10.5" y="6" width="3" height="12" rx="1"/>
+    <rect class="bar" x="16" y="6" width="3" height="12" rx="1"/>
+  </svg>
+</button>
+
+<!-- Audio (configured via JS below) -->
+<audio id="bg-music" loop></audio>
+
+<!-- Prompt shown only if browser blocks autoplay -->
+<div id="audio-prompt">
+  <div class="inner">
+    <h2>Welcome</h2>
+    <p class="italic">Tap anywhere to open the invitation</p>
+    <div class="open-btn">Enter</div>
+  </div>
+</div>
+
+
+<!-- ============== HERO ============== -->
+<section id="hero">
+  <div class="frame reveal">
+    <div class="small-caps" data-key="hero_eyebrow">Wedding Invitation</div>
+    <h1 class="couple-names">
+      <span data-key="bride">Sandugash</span>
+      <span class="amp italic">&amp;</span>
+      <span data-key="groom">Sherkhan</span>
+    </h1>
+    <div class="divider"></div>
+    <div class="date-line" data-key="hero_date">Saturday · 12 September 2026</div>
+  </div>
+</section>
+
+
+<!-- ============== GREETING ============== -->
+<section id="greeting">
+  <div class="small-caps">Dear</div>
+  <div class="divider"></div>
+  <p class="greeting reveal">
+    <strong data-key="greeting_audience">Family, relatives, friends and dear guests,</strong>
+    <br /><br />
+    <span data-key="greeting_body">
+      We are delighted to invite you to share in the joy of our wedding day.
+      Your presence will make our celebration truly complete.
+    </span>
+  </p>
+
+  <!-- Couple photo -->
+  <div class="photo-frame reveal">
+    <img data-key="hero_photo" alt="The couple" />
+    <div class="tag" data-key="hero_photo_caption">Sandugash &nbsp;·&nbsp; Sherkhan</div>
+  </div>
+</section>
+
+
+<!-- ============== COUNTDOWN ============== -->
+<section id="countdown-section" style="background: var(--bg-deep);">
+  <div class="small-caps">Counting the days</div>
+  <div class="divider ornament"><span>✦</span></div>
+  <div id="countdown" class="reveal">
+    <div class="cd-unit"><div class="num" id="cd-days">--</div><div class="lbl">Days</div></div>
+    <div class="cd-unit"><div class="num" id="cd-hours">--</div><div class="lbl">Hours</div></div>
+    <div class="cd-unit"><div class="num" id="cd-mins">--</div><div class="lbl">Minutes</div></div>
+    <div class="cd-unit"><div class="num" id="cd-secs">--</div><div class="lbl">Seconds</div></div>
+  </div>
+</section>
+
+
+<!-- ============== PROGRAM ============== -->
+<section id="program-section">
+  <div class="small-caps">Program of the day</div>
+  <div class="divider ornament"><span>✦</span></div>
+
+  <div class="program reveal" id="program-list">
+    <!-- Filled by JS from config.program -->
+  </div>
+</section>
+
+
+<!-- ============== VENUE ============== -->
+<section id="venue" style="background: var(--bg-deep);">
+  <div class="small-caps">Venue</div>
+  <div class="divider ornament"><span>✦</span></div>
+
+  <div class="venue-card reveal">
+    <div class="place" data-key="venue_name">Kezdesu Restaurant</div>
+    <div class="address" data-key="venue_address">
+      Shymkent, Zhidelibaisin street 85
+    </div>
+    <a class="btn-map" id="map-btn" target="_blank" rel="noopener">Open the map</a>
+  </div>
+</section>
+
+
+<!-- ============== RSVP ============== -->
+<section id="rsvp">
+  <div class="small-caps">Kindly RSVP</div>
+  <div class="divider ornament"><span>✦</span></div>
+  <p class="greeting reveal" style="max-width:480px;" data-key="rsvp_intro">
+    Please let us know if you will be able to join us, so we can prepare a special place for you at our table.
+  </p>
+
+  <form class="rsvp-form reveal" id="rsvp-form">
+    <input type="text" id="rsvp-name" placeholder="Your full name" required />
+    <input type="text" id="rsvp-phone" placeholder="Phone (optional)" />
+    <div class="rsvp-options">
+      <label><input type="radio" name="attend" value="Yes" required /> Yes, I will be there with joy</label>
+      <label><input type="radio" name="attend" value="With partner" /> Coming with my partner</label>
+      <label><input type="radio" name="attend" value="No" /> Sadly cannot attend</label>
+    </div>
+    <button type="submit" class="btn-submit" id="rsvp-submit">Send</button>
+    <div class="rsvp-note" id="rsvp-note">Your response will be saved.</div>
+  </form>
+
+  <div id="rsvp-success" class="reveal" style="display:none; margin-top:20px; max-width:420px;">
+    <div class="divider ornament"><span>♥</span></div>
+    <p class="greeting" style="margin-top:14px;">
+      Thank you! Your response has been received.<br/>
+      <span class="italic">We look forward to celebrating with you.</span>
+    </p>
+  </div>
+</section>
+
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <span data-key="bride2">Sandugash</span>
+  <span class="heart">♥</span>
+  <span data-key="groom2">Sherkhan</span>
+  <div style="margin-top:14px;opacity:0.6;font-size:11px;">2026</div>
+</footer>
+
+
+<!-- ====================================================== -->
+<!--   CONFIG — EDIT EVERYTHING BELOW TO CUSTOMIZE THE SITE -->
+<!-- ====================================================== -->
+<script id="config">
+const CONFIG = {
+
+  // -------- COUPLE --------
+  bride: "Sandugash",
+  groom: "Sherkhan",
+
+  // -------- WEDDING DATE & TIME (used for countdown) --------
+  // Format: YYYY-MM-DDTHH:MM:SS  (24-hour, local time)
+  weddingDate: "2026-09-05T18:00:00",
+
+  // -------- TEXTS --------
+  hero_eyebrow: "Wedding Invitation",
+  hero_date:    "Saturday · 05 September 2026",
+
+  greeting_audience: "Dear family, relatives, friends and beloved guests,",
+  greeting_body:
+    "We are delighted to invite you to share in the joy of our wedding day. " +
+    "Your presence will make our celebration truly complete.",
+
+  hero_photo_caption: "Sandugash  ·  Sherkhan",
+
+  rsvp_intro:
+    "Please let us know if you will be able to join us, " +
+    "so we can prepare a special place for you at our table.",
+
+  // -------- PHOTO --------
+  // Replace with your own image. Put the file next to index.html
+  // (e.g. "couple.jpg") and the path becomes simply "couple.jpg".
+  hero_photo: "shers.JPG",
+
+  // -------- PROGRAM / SCHEDULE --------
+  program: [
+    { time: "17:00", desc: "Arrival & welcome of guests" },
+    { time: "18:00", desc: "Ceremony" },
+    { time: "19:00", desc: "Reception & dinner" },
+  ],
+
+  // -------- VENUE --------
+  venue_name:    "Elegant Emirates Restaurant",
+  venue_address: "Shymkent, Beidibek bii street 7/17",
+  // Map link — open Google Maps or 2GIS, search your venue, share the link, paste below:
+  venue_map_url: "https://2gis.kz/shymkent/geo/70000001080339461",
+
+  // -------- RSVP DESTINATION (Google Sheets) --------
+  // Paste your Apps Script Web App URL here (see README for setup steps).
+  // It should look like: https://script.google.com/macros/s/AKfy...../exec
+  // Leave as "" to disable Google Sheets and use WhatsApp only.
+  sheets_url: "https://script.google.com/macros/s/AKfycbzTk_ryd1w2Y6AwLkKl29kP3tfuiSYE0Oxy-gXbRJb4zVI7IdJLqaQ1ofmeH7KATRXz/exec",
+
+  // -------- WHATSAPP (optional fallback / notification) --------
+  // If set, after submitting, also open WhatsApp with the RSVP details.
+  // Set to "" to disable. Format: 77001234567 (no + or spaces)
+  whatsapp_number: "",
+
+  // -------- MUSIC --------
+  // Replace with the filename of your own .mp3 placed next to index.html,
+  // for example: "music.mp3"
+  music: "korkemim.mp3",
+
+  // Should music try to play as soon as page opens? (true / false)
+  // Note: most browsers block autoplay until the visitor taps once.
+  autoplay: true,
+};
+</script>
+
+
+<!-- ====================================================== -->
+<!--   APP LOGIC — you usually don't need to edit below     -->
+<!-- ====================================================== -->
+<script>
+// Apply text values from CONFIG into the page
+document.querySelectorAll('[data-key]').forEach(el => {
+  const key = el.getAttribute('data-key');
+  if (key === 'bride' || key === 'bride2') el.textContent = CONFIG.bride;
+  else if (key === 'groom' || key === 'groom2') el.textContent = CONFIG.groom;
+  else if (key === 'hero_photo') el.setAttribute('src', CONFIG.hero_photo);
+  else if (CONFIG[key] !== undefined) el.textContent = CONFIG[key];
+});
+
+document.title = `${CONFIG.bride} & ${CONFIG.groom} — Wedding Invitation`;
+
+// Program rows
+const programEl = document.getElementById('program-list');
+CONFIG.program.forEach(item => {
+  const row = document.createElement('div');
+  row.className = 'program-row';
+  row.innerHTML = `<div class="time">${item.time}</div><div class="desc">${item.desc}</div>`;
+  programEl.appendChild(row);
+});
+
+// Venue map button
+document.getElementById('map-btn').href = CONFIG.venue_map_url;
+
+// Countdown
+const target = new Date(CONFIG.weddingDate).getTime();
+function tickCountdown() {
+  const now = Date.now();
+  let diff = Math.max(0, target - now);
+  const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+  const h = Math.floor(diff / 3600000);  diff -= h * 3600000;
+  const m = Math.floor(diff / 60000);    diff -= m * 60000;
+  const s = Math.floor(diff / 1000);
+  document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+  document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+}
+tickCountdown();
+setInterval(tickCountdown, 1000);
+
+// Reveal animations on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Music
+const audio      = document.getElementById('bg-music');
+const toggle     = document.getElementById('music-toggle');
+const overlay    = document.getElementById('audio-prompt');   // renamed: 'prompt' is a reserved browser global
+audio.src        = CONFIG.music;
+audio.preload    = 'auto';
+let userStarted  = false;
+
+function setPlayingUI(playing) {
+  toggle.classList.toggle('playing', playing);
+}
+
+function tryPlay() {
+  const p = audio.play();
+  if (p && typeof p.then === 'function') {
+    return p.then(
+      () => { setPlayingUI(true); hideOverlay(); userStarted = true; },
+      () => { /* blocked — overlay stays so user can tap */ }
+    );
+  }
+  // Older browsers: play() returned undefined
+  setPlayingUI(true); hideOverlay(); userStarted = true;
+  return Promise.resolve();
+}
+
+function hideOverlay() { overlay.classList.remove('show'); }
+
+if (CONFIG.autoplay) {
+  // Try silent autoplay first
+  tryPlay();
+  // If still paused after a moment, show overlay so user can start it
+  setTimeout(() => { if (audio.paused) overlay.classList.add('show'); }, 500);
+}
+
+// ANY interaction anywhere on the page will start playback.
+// This is the most reliable way to satisfy browser autoplay rules.
+function firstInteractionPlay() {
+  if (userStarted || !audio.paused) return;
+  tryPlay();
+}
+['click', 'touchstart', 'keydown', 'pointerdown'].forEach(evt => {
+  document.addEventListener(evt, firstInteractionPlay, { once: false, passive: true });
+});
+
+// Explicit clicks on the overlay (anywhere inside it)
+overlay.addEventListener('click', () => { tryPlay(); hideOverlay(); });
+
+// Play/pause button
+toggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (audio.paused) tryPlay();
+  else { audio.pause(); setPlayingUI(false); }
+});
+
+// RSVP -> Google Sheets (+ optional WhatsApp)
+const rsvpForm    = document.getElementById('rsvp-form');
+const rsvpSubmit  = document.getElementById('rsvp-submit');
+const rsvpNote    = document.getElementById('rsvp-note');
+const rsvpSuccess = document.getElementById('rsvp-success');
+
+rsvpForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name   = document.getElementById('rsvp-name').value.trim();
+  const phone  = document.getElementById('rsvp-phone').value.trim();
+  const choice = document.querySelector('input[name="attend"]:checked')?.value || '';
+  if (!name || !choice) return;
+
+  rsvpSubmit.disabled    = true;
+  rsvpSubmit.textContent = 'Sending...';
+
+  // 1. Send to Google Sheets (if configured)
+  if (CONFIG.sheets_url) {
+    try {
+      // We use 'no-cors' + URL-encoded body so the Apps Script accepts it
+      // without us needing to fight CORS. The trade-off: we can't read the
+      // response, but for a one-way write that's fine.
+      const body = new URLSearchParams({
+        name, phone, attend: choice,
+        timestamp: new Date().toISOString(),
+      });
+      await fetch(CONFIG.sheets_url, {
+        method: 'POST',
+        mode:   'no-cors',
+        body,
+      });
+    } catch (err) {
+      console.warn('Sheets submission failed (continuing):', err);
+    }
+  }
+
+  // 2. Optional WhatsApp notification
+  if (CONFIG.whatsapp_number) {
+    const text = `Hello! RSVP for ${CONFIG.bride} & ${CONFIG.groom}:%0A` +
+                 `Name: ${encodeURIComponent(name)}%0A` +
+                 (phone ? `Phone: ${encodeURIComponent(phone)}%0A` : '') +
+                 `Response: ${encodeURIComponent(choice)}`;
+    window.open(`https://wa.me/${CONFIG.whatsapp_number}?text=${text}`, '_blank');
+  }
+
+  // 3. Show thank-you
+  rsvpForm.style.display = 'none';
+  rsvpSuccess.style.display = 'block';
+  rsvpSuccess.classList.add('visible');
+});
+</script>
+
+</body>
+</html>
