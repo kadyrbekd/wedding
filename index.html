@@ -57,6 +57,47 @@ img { max-width: 100%; display: block; }
 .display { font-family: 'Italiana', serif; letter-spacing: 0.04em; }
 .italic { font-family: 'Cormorant Infant', serif; font-style: italic; }
 
+/* ---------- Language switcher ---------- */
+#lang-switcher {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 50;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(58,46,34,0.25);
+  background: rgba(251,247,239,0.85);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(58,46,34,0.12);
+}
+#lang-switcher button {
+  border: none;
+  background: transparent;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: 'Italiana', serif;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+#lang-switcher button:hover { color: var(--ink); }
+#lang-switcher button.active {
+  background: var(--accent-deep);
+  color: var(--paper);
+}
+
+@media (max-width: 420px) {
+  #lang-switcher { top: 14px; left: 14px; padding: 3px; }
+  #lang-switcher button { width: 34px; height: 34px; font-size: 11px; }
+  #music-toggle { top: 14px; right: 14px; width: 44px; height: 44px; }
+}
+
 /* ---------- Music toggle button ---------- */
 #music-toggle {
   position: fixed;
@@ -441,6 +482,13 @@ footer .heart { color: var(--rose); margin: 0 8px; }
 </head>
 <body>
 
+<!-- Language switcher -->
+<div id="lang-switcher" role="group" aria-label="Language">
+  <button data-lang="kk">ҚАЗ</button>
+  <button data-lang="ru">РУС</button>
+  <button data-lang="en">EN</button>
+</div>
+
 <!-- Music play/pause button -->
 <button id="music-toggle" aria-label="Toggle music">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -456,9 +504,9 @@ footer .heart { color: var(--rose); margin: 0 8px; }
 <!-- Prompt shown only if browser blocks autoplay -->
 <div id="audio-prompt">
   <div class="inner">
-    <h2>Welcome</h2>
-    <p class="italic">Tap anywhere to open the invitation</p>
-    <div class="open-btn">Enter</div>
+    <h2 data-i18n="welcome">Welcome</h2>
+    <p class="italic" data-i18n="tap_to_enter">Tap anywhere to open the invitation</p>
+    <div class="open-btn" data-i18n="enter">Enter</div>
   </div>
 </div>
 
@@ -466,26 +514,26 @@ footer .heart { color: var(--rose); margin: 0 8px; }
 <!-- ============== HERO ============== -->
 <section id="hero">
   <div class="frame reveal">
-    <div class="small-caps" data-key="hero_eyebrow">Wedding Invitation</div>
+    <div class="small-caps" data-i18n="hero_eyebrow">Wedding Invitation</div>
     <h1 class="couple-names">
-      <span data-key="bride">Sandugash</span>
+      <span class="bride-name">Sandugash</span>
       <span class="amp italic">&amp;</span>
-      <span data-key="groom">Sherkhan</span>
+      <span class="groom-name">Sherkhan</span>
     </h1>
     <div class="divider"></div>
-    <div class="date-line" data-key="hero_date">Saturday · 12 September 2026</div>
+    <div class="date-line" data-i18n="hero_date">Saturday · 12 September 2026</div>
   </div>
 </section>
 
 
 <!-- ============== GREETING ============== -->
 <section id="greeting">
-  <div class="small-caps">Dear</div>
+  <div class="small-caps" data-i18n="dear">Dear</div>
   <div class="divider"></div>
   <p class="greeting reveal">
-    <strong data-key="greeting_audience">Family, relatives, friends and dear guests,</strong>
+    <strong data-i18n="greeting_audience">Family, relatives, friends and dear guests,</strong>
     <br /><br />
-    <span data-key="greeting_body">
+    <span data-i18n="greeting_body">
       We are delighted to invite you to share in the joy of our wedding day.
       Your presence will make our celebration truly complete.
     </span>
@@ -493,76 +541,76 @@ footer .heart { color: var(--rose); margin: 0 8px; }
 
   <!-- Couple photo -->
   <div class="photo-frame reveal">
-    <img data-key="hero_photo" alt="The couple" />
-    <div class="tag" data-key="hero_photo_caption">Sandugash &nbsp;·&nbsp; Sherkhan</div>
+    <img id="hero-photo" alt="The couple" />
+    <div class="tag" id="hero-photo-caption"></div>
   </div>
 </section>
 
 
 <!-- ============== COUNTDOWN ============== -->
 <section id="countdown-section" style="background: var(--bg-deep);">
-  <div class="small-caps">Counting the days</div>
+  <div class="small-caps" data-i18n="counting_days">Counting the days</div>
   <div class="divider ornament"><span>✦</span></div>
   <div id="countdown" class="reveal">
-    <div class="cd-unit"><div class="num" id="cd-days">--</div><div class="lbl">Days</div></div>
-    <div class="cd-unit"><div class="num" id="cd-hours">--</div><div class="lbl">Hours</div></div>
-    <div class="cd-unit"><div class="num" id="cd-mins">--</div><div class="lbl">Minutes</div></div>
-    <div class="cd-unit"><div class="num" id="cd-secs">--</div><div class="lbl">Seconds</div></div>
+    <div class="cd-unit"><div class="num" id="cd-days">--</div><div class="lbl" data-i18n="days">Days</div></div>
+    <div class="cd-unit"><div class="num" id="cd-hours">--</div><div class="lbl" data-i18n="hours">Hours</div></div>
+    <div class="cd-unit"><div class="num" id="cd-mins">--</div><div class="lbl" data-i18n="minutes">Minutes</div></div>
+    <div class="cd-unit"><div class="num" id="cd-secs">--</div><div class="lbl" data-i18n="seconds">Seconds</div></div>
   </div>
 </section>
 
 
 <!-- ============== PROGRAM ============== -->
 <section id="program-section">
-  <div class="small-caps">Program of the day</div>
+  <div class="small-caps" data-i18n="program_title">Program of the day</div>
   <div class="divider ornament"><span>✦</span></div>
 
   <div class="program reveal" id="program-list">
-    <!-- Filled by JS from config.program -->
+    <!-- Filled by JS from translation.program -->
   </div>
 </section>
 
 
 <!-- ============== VENUE ============== -->
 <section id="venue" style="background: var(--bg-deep);">
-  <div class="small-caps">Venue</div>
+  <div class="small-caps" data-i18n="venue_title">Venue</div>
   <div class="divider ornament"><span>✦</span></div>
 
   <div class="venue-card reveal">
-    <div class="place" data-key="venue_name">Kezdesu Restaurant</div>
-    <div class="address" data-key="venue_address">
+    <div class="place" data-i18n="venue_name">Kezdesu Restaurant</div>
+    <div class="address" data-i18n="venue_address">
       Shymkent, Zhidelibaisin street 85
     </div>
-    <a class="btn-map" id="map-btn" target="_blank" rel="noopener">Open the map</a>
+    <a class="btn-map" id="map-btn" target="_blank" rel="noopener" data-i18n="open_map">Open the map</a>
   </div>
 </section>
 
 
 <!-- ============== RSVP ============== -->
 <section id="rsvp">
-  <div class="small-caps">Kindly RSVP</div>
+  <div class="small-caps" data-i18n="rsvp_title">Kindly RSVP</div>
   <div class="divider ornament"><span>✦</span></div>
-  <p class="greeting reveal" style="max-width:480px;" data-key="rsvp_intro">
+  <p class="greeting reveal" style="max-width:480px;" data-i18n="rsvp_intro">
     Please let us know if you will be able to join us, so we can prepare a special place for you at our table.
   </p>
 
   <form class="rsvp-form reveal" id="rsvp-form">
-    <input type="text" id="rsvp-name" placeholder="Your full name" required />
-    <input type="text" id="rsvp-phone" placeholder="Phone (optional)" />
+    <input type="text" id="rsvp-name" data-i18n-placeholder="rsvp_name" placeholder="Your full name" required />
+    <input type="text" id="rsvp-phone" data-i18n-placeholder="rsvp_phone" placeholder="Phone (optional)" />
     <div class="rsvp-options">
-      <label><input type="radio" name="attend" value="Yes" required /> Yes, I will be there with joy</label>
-      <label><input type="radio" name="attend" value="With partner" /> Coming with my partner</label>
-      <label><input type="radio" name="attend" value="No" /> Sadly cannot attend</label>
+      <label><input type="radio" name="attend" value="Yes" required /> <span data-i18n="rsvp_yes">Yes, I will be there with joy</span></label>
+      <label><input type="radio" name="attend" value="With partner" /> <span data-i18n="rsvp_partner">Coming with my partner</span></label>
+      <label><input type="radio" name="attend" value="No" /> <span data-i18n="rsvp_no">Sadly cannot attend</span></label>
     </div>
-    <button type="submit" class="btn-submit" id="rsvp-submit">Send</button>
-    <div class="rsvp-note" id="rsvp-note">Your response will be saved.</div>
+    <button type="submit" class="btn-submit" id="rsvp-submit" data-i18n="rsvp_send">Send</button>
+    <div class="rsvp-note" id="rsvp-note" data-i18n="rsvp_note">Your response will be saved.</div>
   </form>
 
   <div id="rsvp-success" class="reveal" style="display:none; margin-top:20px; max-width:420px;">
     <div class="divider ornament"><span>♥</span></div>
     <p class="greeting" style="margin-top:14px;">
-      Thank you! Your response has been received.<br/>
-      <span class="italic">We look forward to celebrating with you.</span>
+      <span data-i18n="rsvp_thanks_1">Thank you! Your response has been received.</span><br/>
+      <span class="italic" data-i18n="rsvp_thanks_2">We look forward to celebrating with you.</span>
     </p>
   </div>
 </section>
@@ -570,9 +618,9 @@ footer .heart { color: var(--rose); margin: 0 8px; }
 
 <!-- ============== FOOTER ============== -->
 <footer>
-  <span data-key="bride2">Sandugash</span>
+  <span class="bride-name">Sandugash</span>
   <span class="heart">♥</span>
-  <span data-key="groom2">Sherkhan</span>
+  <span class="groom-name">Sherkhan</span>
   <div style="margin-top:14px;opacity:0.6;font-size:11px;">2026</div>
 </footer>
 
@@ -581,6 +629,10 @@ footer .heart { color: var(--rose); margin: 0 8px; }
 <!--   CONFIG — EDIT EVERYTHING BELOW TO CUSTOMIZE THE SITE -->
 <!-- ====================================================== -->
 <script id="config">
+// =========================================================
+// CONFIG: things that are the same across all languages
+// (names, files, links, dates)
+// =========================================================
 const CONFIG = {
 
   // -------- COUPLE --------
@@ -591,58 +643,198 @@ const CONFIG = {
   // Format: YYYY-MM-DDTHH:MM:SS  (24-hour, local time)
   weddingDate: "2026-09-05T18:00:00",
 
-  // -------- TEXTS --------
-  hero_eyebrow: "Wedding Invitation",
-  hero_date:    "Saturday · 05 September 2026",
-
-  greeting_audience: "Dear family, relatives, friends and beloved guests,",
-  greeting_body:
-    "We are delighted to invite you to share in the joy of our wedding day. " +
-    "Your presence will make our celebration truly complete.",
-
-  hero_photo_caption: "Sandugash  ·  Sherkhan",
-
-  rsvp_intro:
-    "Please let us know if you will be able to join us, " +
-    "so we can prepare a special place for you at our table.",
-
   // -------- PHOTO --------
-  // Replace with your own image. Put the file next to index.html
-  // (e.g. "couple.jpg") and the path becomes simply "couple.jpg".
+  // Put the image file next to index.html and write just its filename here.
   hero_photo: "shers.JPG",
 
-  // -------- PROGRAM / SCHEDULE --------
-  program: [
-    { time: "17:00", desc: "Arrival & welcome of guests" },
-    { time: "18:00", desc: "Ceremony" },
-    { time: "19:00", desc: "Reception & dinner" },
-  ],
-
-  // -------- VENUE --------
-  venue_name:    "Elegant Emirates Restaurant",
-  venue_address: "Shymkent, Beidibek bii street 7/17",
-  // Map link — open Google Maps or 2GIS, search your venue, share the link, paste below:
+  // -------- VENUE MAP LINK --------
+  // Open Google Maps / 2GIS / Yandex Maps, search the venue, share -> copy link.
   venue_map_url: "https://2gis.kz/shymkent/geo/70000001080339461",
 
   // -------- RSVP DESTINATION (Google Sheets) --------
-  // Paste your Apps Script Web App URL here (see README for setup steps).
-  // It should look like: https://script.google.com/macros/s/AKfy...../exec
-  // Leave as "" to disable Google Sheets and use WhatsApp only.
   sheets_url: "https://script.google.com/macros/s/AKfycbzTk_ryd1w2Y6AwLkKl29kP3tfuiSYE0Oxy-gXbRJb4zVI7IdJLqaQ1ofmeH7KATRXz/exec",
 
-  // -------- WHATSAPP (optional fallback / notification) --------
-  // If set, after submitting, also open WhatsApp with the RSVP details.
-  // Set to "" to disable. Format: 77001234567 (no + or spaces)
+  // -------- WHATSAPP (optional, "" to disable) --------
   whatsapp_number: "",
 
   // -------- MUSIC --------
-  // Replace with the filename of your own .mp3 placed next to index.html,
-  // for example: "music.mp3"
   music: "korkemim.mp3",
-
-  // Should music try to play as soon as page opens? (true / false)
-  // Note: most browsers block autoplay until the visitor taps once.
   autoplay: true,
+
+  // -------- DEFAULT LANGUAGE --------
+  // The language shown the first time someone visits.
+  // Options: "kk" (Kazakh), "ru" (Russian), "en" (English)
+  default_language: "kk",
+};
+
+
+// =========================================================
+// TRANSLATIONS: all visible text, in three languages.
+// To edit a phrase, change it in ALL THREE blocks (kk, ru, en).
+// =========================================================
+const TRANSLATIONS = {
+
+  // -------------------- KAZAKH --------------------
+  kk: {
+    // browser tab title
+    page_title: "Үйлену тойына шақыру",
+
+    // hero
+    hero_eyebrow: "Үйлену тойына шақыру",
+    hero_date:    "Сенбі · 05 қыркүйек 2026",
+
+    // greeting
+    dear:               "Қымбатты",
+    greeting_audience:  "Қадірлі ата-ана, туыстар, дос-жарандар!",
+    greeting_body:
+      "Біздің үйлену тойымызға шын жүректен шақырамыз. " +
+      "Біз үшін ең қуанышты күнімізді сіздермен бөліскенді қалаймыз.",
+
+    // photo caption template ({bride} & {groom} will be auto-replaced)
+    photo_caption: "{bride}  ·  {groom}",
+
+    // countdown
+    counting_days: "Тойға дейін",
+    days:    "Күн",
+    hours:   "Сағат",
+    minutes: "Минут",
+    seconds: "Секунд",
+
+    // program
+    program_title: "Той бағдарламасы",
+    program: [
+      { time: "17:00", desc: "Қонақтарды қарсы алу" },
+      { time: "18:00", desc: "Той салтанаты" },
+      { time: "19:00", desc: "Кешкі ас, көңіл көтеру" },
+    ],
+
+    // venue
+    venue_title:   "Той өтетін орын",
+    venue_name:    "Elegant Emirates мейрамханасы",
+    venue_address: "Шымкент, Бәйдібек би көшесі 7/17",
+    open_map:      "Картадан көру",
+
+    // RSVP
+    rsvp_title:     "Қатысуыңызды растаңыз",
+    rsvp_intro:
+      "Сіздің келе алатыныңызды алдын ала білсек, орындарыңызды дайындай аламыз.",
+    rsvp_name:      "Атыңыз және тегіңіз",
+    rsvp_phone:     "Телефон нөмірі (міндетті емес)",
+    rsvp_yes:       "Қуанышпен қатысамын",
+    rsvp_partner:   "Жұбайыммен бірге келемін",
+    rsvp_no:        "Өкінішке орай, қатыса алмаймын",
+    rsvp_send:      "Жіберу",
+    rsvp_note:      "Жауабыңыз сақталады.",
+    rsvp_thanks_1:  "Рақмет! Жауабыңыз қабылданды.",
+    rsvp_thanks_2:  "Сіздермен бірге қуануды асыға күтеміз.",
+
+    // music overlay
+    welcome:       "Қош келдіңіз",
+    tap_to_enter:  "Шақыруды ашу үшін экранға басыңыз",
+    enter:         "Кіру",
+  },
+
+  // -------------------- RUSSIAN --------------------
+  ru: {
+    page_title: "Свадебное приглашение",
+
+    hero_eyebrow: "Свадебное приглашение",
+    hero_date:    "Суббота · 05 сентября 2026",
+
+    dear:               "Дорогие",
+    greeting_audience:  "Уважаемые родители, родные, друзья и близкие!",
+    greeting_body:
+      "С большой радостью приглашаем вас разделить с нами самый счастливый день нашей жизни. " +
+      "Ваше присутствие сделает наш праздник по-настоящему особенным.",
+
+    photo_caption: "{bride}  ·  {groom}",
+
+    counting_days: "До свадьбы осталось",
+    days:    "Дней",
+    hours:   "Часов",
+    minutes: "Минут",
+    seconds: "Секунд",
+
+    program_title: "Программа дня",
+    program: [
+      { time: "17:00", desc: "Встреча гостей" },
+      { time: "18:00", desc: "Свадебная церемония" },
+      { time: "19:00", desc: "Ужин и торжество" },
+    ],
+
+    venue_title:   "Место проведения",
+    venue_name:    "Ресторан Elegant Emirates",
+    venue_address: "Шымкент, ул. Байдибек би 7/17",
+    open_map:      "Открыть на карте",
+
+    rsvp_title:     "Подтвердите своё присутствие",
+    rsvp_intro:
+      "Пожалуйста, сообщите, сможете ли вы быть с нами — чтобы мы могли подготовить для вас особенное место за нашим столом.",
+    rsvp_name:      "Ваше имя и фамилия",
+    rsvp_phone:     "Телефон (необязательно)",
+    rsvp_yes:       "Да, с радостью буду",
+    rsvp_partner:   "Приду со своей половинкой",
+    rsvp_no:        "К сожалению, не смогу",
+    rsvp_send:      "Отправить",
+    rsvp_note:      "Ваш ответ будет сохранён.",
+    rsvp_thanks_1:  "Спасибо! Ваш ответ принят.",
+    rsvp_thanks_2:  "Будем рады встрече с вами.",
+
+    welcome:       "Добро пожаловать",
+    tap_to_enter:  "Нажмите в любом месте, чтобы открыть приглашение",
+    enter:         "Войти",
+  },
+
+  // -------------------- ENGLISH --------------------
+  en: {
+    page_title: "Wedding Invitation",
+
+    hero_eyebrow: "Wedding Invitation",
+    hero_date:    "Saturday · 05 September 2026",
+
+    dear:               "Dear",
+    greeting_audience:  "Dear family, relatives, friends and beloved guests,",
+    greeting_body:
+      "We are delighted to invite you to share in the joy of our wedding day. " +
+      "Your presence will make our celebration truly complete.",
+
+    photo_caption: "{bride}  ·  {groom}",
+
+    counting_days: "Counting the days",
+    days:    "Days",
+    hours:   "Hours",
+    minutes: "Minutes",
+    seconds: "Seconds",
+
+    program_title: "Program of the day",
+    program: [
+      { time: "17:00", desc: "Arrival & welcome of guests" },
+      { time: "18:00", desc: "Ceremony" },
+      { time: "19:00", desc: "Reception & dinner" },
+    ],
+
+    venue_title:   "Venue",
+    venue_name:    "Elegant Emirates Restaurant",
+    venue_address: "Shymkent, Beidibek bii street 7/17",
+    open_map:      "Open the map",
+
+    rsvp_title:     "Kindly RSVP",
+    rsvp_intro:
+      "Please let us know if you will be able to join us, so we can prepare a special place for you at our table.",
+    rsvp_name:      "Your full name",
+    rsvp_phone:     "Phone (optional)",
+    rsvp_yes:       "Yes, I will be there with joy",
+    rsvp_partner:   "Coming with my partner",
+    rsvp_no:        "Sadly cannot attend",
+    rsvp_send:      "Send",
+    rsvp_note:      "Your response will be saved.",
+    rsvp_thanks_1:  "Thank you! Your response has been received.",
+    rsvp_thanks_2:  "We look forward to celebrating with you.",
+
+    welcome:       "Welcome",
+    tap_to_enter:  "Tap anywhere to open the invitation",
+    enter:         "Enter",
+  },
 };
 </script>
 
@@ -651,30 +843,17 @@ const CONFIG = {
 <!--   APP LOGIC — you usually don't need to edit below     -->
 <!-- ====================================================== -->
 <script>
-// Apply text values from CONFIG into the page
-document.querySelectorAll('[data-key]').forEach(el => {
-  const key = el.getAttribute('data-key');
-  if (key === 'bride' || key === 'bride2') el.textContent = CONFIG.bride;
-  else if (key === 'groom' || key === 'groom2') el.textContent = CONFIG.groom;
-  else if (key === 'hero_photo') el.setAttribute('src', CONFIG.hero_photo);
-  else if (CONFIG[key] !== undefined) el.textContent = CONFIG[key];
-});
+// ---------- Set bride/groom names everywhere ----------
+document.querySelectorAll('.bride-name').forEach(el => el.textContent = CONFIG.bride);
+document.querySelectorAll('.groom-name').forEach(el => el.textContent = CONFIG.groom);
 
-document.title = `${CONFIG.bride} & ${CONFIG.groom} — Wedding Invitation`;
+// ---------- Photo ----------
+document.getElementById('hero-photo').setAttribute('src', CONFIG.hero_photo);
 
-// Program rows
-const programEl = document.getElementById('program-list');
-CONFIG.program.forEach(item => {
-  const row = document.createElement('div');
-  row.className = 'program-row';
-  row.innerHTML = `<div class="time">${item.time}</div><div class="desc">${item.desc}</div>`;
-  programEl.appendChild(row);
-});
-
-// Venue map button
+// ---------- Venue map button ----------
 document.getElementById('map-btn').href = CONFIG.venue_map_url;
 
-// Countdown
+// ---------- Countdown ----------
 const target = new Date(CONFIG.weddingDate).getTime();
 function tickCountdown() {
   const now = Date.now();
@@ -691,7 +870,77 @@ function tickCountdown() {
 tickCountdown();
 setInterval(tickCountdown, 1000);
 
-// Reveal animations on scroll
+// ---------- i18n ----------
+const SUPPORTED_LANGS = ['kk', 'ru', 'en'];
+
+function pickInitialLang() {
+  // 1. Saved preference
+  const saved = localStorage.getItem('wedding_lang');
+  if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+  // 2. Browser language hint
+  const browser = (navigator.language || '').toLowerCase();
+  if (browser.startsWith('kk') || browser.startsWith('kz')) return 'kk';
+  if (browser.startsWith('ru')) return 'ru';
+  if (browser.startsWith('en')) return 'en';
+  // 3. Configured default
+  return SUPPORTED_LANGS.includes(CONFIG.default_language)
+    ? CONFIG.default_language
+    : 'kk';
+}
+
+function applyLanguage(lang) {
+  if (!TRANSLATIONS[lang]) lang = 'en';
+  const t = TRANSLATIONS[lang];
+
+  // Browser title + html lang attr
+  document.title = `${CONFIG.bride} & ${CONFIG.groom} — ${t.page_title}`;
+  document.documentElement.lang = lang;
+
+  // Text content
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  // Input placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+  });
+
+  // Photo caption (with name substitution)
+  const captionTpl = t.photo_caption || '{bride}  ·  {groom}';
+  document.getElementById('hero-photo-caption').textContent =
+    captionTpl.replace('{bride}', CONFIG.bride).replace('{groom}', CONFIG.groom);
+
+  // Program rows (re-render)
+  const programEl = document.getElementById('program-list');
+  programEl.innerHTML = '';
+  (t.program || []).forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'program-row';
+    row.innerHTML = `<div class="time">${item.time}</div><div class="desc">${item.desc}</div>`;
+    programEl.appendChild(row);
+  });
+
+  // Active state on switcher buttons
+  document.querySelectorAll('#lang-switcher button').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+
+  // Save preference
+  localStorage.setItem('wedding_lang', lang);
+  // Make current lang readable from elsewhere
+  window.__currentLang = lang;
+}
+
+document.querySelectorAll('#lang-switcher button').forEach(b => {
+  b.addEventListener('click', () => applyLanguage(b.getAttribute('data-lang')));
+});
+
+applyLanguage(pickInitialLang());
+
+// ---------- Reveal animations on scroll ----------
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.15 });
@@ -764,8 +1013,9 @@ rsvpForm.addEventListener('submit', async (e) => {
   const choice = document.querySelector('input[name="attend"]:checked')?.value || '';
   if (!name || !choice) return;
 
+  const lang = window.__currentLang || 'en';
   rsvpSubmit.disabled    = true;
-  rsvpSubmit.textContent = 'Sending...';
+  rsvpSubmit.textContent = lang === 'kk' ? 'Жіберілуде...' : lang === 'ru' ? 'Отправка...' : 'Sending...';
 
   // 1. Send to Google Sheets (if configured)
   if (CONFIG.sheets_url) {
@@ -775,6 +1025,7 @@ rsvpForm.addEventListener('submit', async (e) => {
       // response, but for a one-way write that's fine.
       const body = new URLSearchParams({
         name, phone, attend: choice,
+        language:  lang,
         timestamp: new Date().toISOString(),
       });
       await fetch(CONFIG.sheets_url, {
